@@ -22,7 +22,6 @@
 #include <Crypto.h>
 #include <TypeConversion.h>
 
-
 // UTC offset
 const long utcOffsetInSeconds = 0;
 WiFiUDP ntpUDP;
@@ -30,7 +29,7 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 
 
 // Get credentials from credentials.h
-char customer_key[] = "customer_key";
+String customer_key = "customer_key";
 String device_key = "device_key";
 
 String key = "3";
@@ -67,6 +66,7 @@ void loop(){
 
   if (WiFi.status() == WL_CONNECTED){ //Check WiFi connection status
       Serial.println(" Wifi Connected !");
+
       Serial.println(" Getting Time from NTP server ");
       timeClient.update();
             
@@ -74,13 +74,15 @@ void loop(){
       unsigned long timestr = timeClient.getEpochTime();
       char payloadBuf[42];
       ltoa(timestr, payloadBuf, 10);
-      strcat(payloadBuf, customer_key);
+      
+      strcat(payloadBuf, customer_key.c_str());
       
       uint8_t derivedKey[device_key.length()];
       std::copy(device_key.begin(), device_key.end(), derivedKey);
       
       String device_signature = SHA256::hmac(payloadBuf, derivedKey, sizeof derivedKey, SHA256::NATURAL_LENGTH);
       device_signature.toLowerCase();
+      // Serial.println(device_signature);
   
       delay(2000);
       HTTPClient http;
@@ -92,6 +94,7 @@ void loop(){
       Serial.println("Get OAuth Token ");
       
       String response = asvin.authLogin(customer_key, device_signature, timestr, httpCode);
+      Serial.println(" Parsing Auth Code ");
       DynamicJsonDocument doc(1000);
       DeserializationError error = deserializeJson(doc, response);
       String authToken = doc["token"];
@@ -104,18 +107,19 @@ void loop(){
 
       Serial.println(authToken);
 
-      // ---------------Register Device--------------- 
+      // Register Device 
 
       String result = asvin.RegisterDevice(mac, firmware_version, authToken, httpCode);
       char buff[result.length() + 1];
       result.toCharArray(buff, result.length() + 1);
       Serial.print("Buffer --> ");
       Serial.println(buff);
+      Serial.println(httpCode);
       
       if (httpCode == 200){
         Serial.println(" Device Registered: OK ");
 
-        //  ------------CheckRollout---------------
+        //  -CheckRollout
         String resultCheckout = asvin.CheckRollout(mac, firmware_version, authToken, httpCode);
         Serial.println("checkRollout");
         char buff[resultCheckout.length() + 1];
@@ -152,7 +156,7 @@ void loop(){
                   return;
                 }
               String cid = doc["cid"];
-              // ---------------Download Firmware from IPFS server---------------
+              // -Download Firmware from IPFS server
               t_httpUpdate_return ret = asvin.DownloadFirmware(authToken, cid);
               switch (ret)
               {
@@ -169,16 +173,18 @@ void loop(){
               if (httpCode == 200){
                 Serial.println("Firmware updated");
               }
-              if (httpCode == 200)
-              {
-                // ---------------check if rollout successfull--------------- 
-                Serial.println("http 200");
-                String resultCheckout = asvin.CheckRolloutSuccess(mac, firmware_version, authToken, rolloutID, httpCode);
-                char buff[resultCheckout.length() + 1];
-                resultCheckout.toCharArray(buff, resultCheckout.length() + 1);
-                Serial.println(buff);
-              }
+              // if (httpCode == 200)
+              // {
+              //   // check if rollout successfull 
+              //   Serial.println("http 200");
+              //   String resultCheckout = asvin.CheckRolloutSuccess(mac, firmware_version, authToken, rolloutID, httpCode);
+              //   char buff[resultCheckout.length() + 1];
+              //   resultCheckout.toCharArray(buff, resultCheckout.length() + 1);
+              //   Serial.println(buff);
+              // }
             }
+
+          // -Check if Rollout was sucessful 
         }
       }
     }

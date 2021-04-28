@@ -144,63 +144,6 @@ HTTPUpdateResult ESP8266HTTPUpdate::updateFS(WiFiClient& client, const String& u
     return handleUpdate(http, currentVersion, true);
 }
 
-#if HTTPUPDATE_1_2_COMPATIBLE
-// HTTPUpdateResult ESP8266HTTPUpdate::update(const String& host, uint16_t port, const String& uri, const String& currentVersion,
-//         bool https, const String& httpsFingerprint, bool reboot)
-// {
-//     (void)https;
-//     rebootOnUpdate(reboot);
-//     if (httpsFingerprint.length() == 0) {
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored  "-Wdeprecated-declarations"
-//         return update(host, port, uri, currentVersion);
-//     } else {
-//         return update(host, port, uri, currentVersion, httpsFingerprint);
-// #pragma GCC diagnostic pop
-//     }
-// }
-
-// HTTPUpdateResult ESP8266HTTPUpdate::update(const String& host, uint16_t port, const String& uri,
-//         const String& currentVersion)
-// {
-//     HTTPClient http;
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored  "-Wdeprecated-declarations"
-//     http.begin(host, port, uri);
-// #pragma GCC diagnostic pop
-//     return handleUpdate(http, currentVersion, false);
-// }
-
-// HTTPUpdateResult ESP8266HTTPUpdate::update(const String& host, uint16_t port, const String& url,
-//         const String& currentVersion, const String& httpsFingerprint)
-// {
-//     HTTPClient http;
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored  "-Wdeprecated-declarations"
-//     http.begin(host, port, url, httpsFingerprint);
-// #pragma GCC diagnostic pop
-//     return handleUpdate(http, currentVersion, false);
-// }
-
-// HTTPUpdateResult ESP8266HTTPUpdate::update(const String& host, uint16_t port, const String& url,
-//         const String& currentVersion, const uint8_t httpsFingerprint[20])
-// {
-//     HTTPClient http;
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored  "-Wdeprecated-declarations"
-//     http.begin(host, port, url, httpsFingerprint);
-// #pragma GCC diagnostic pop
-//     return handleUpdate(http, currentVersion, false);
-// }
-#endif
-
-// HTTPUpdateResult ESP8266HTTPUpdate::update(WiFiClient& client, const String& host, uint16_t port, const String& uri,
-//         const String& currentVersion)
-// {
-//     HTTPClient http;
-//     http.begin(client, host, port, uri);
-//     return handleUpdate(http, currentVersion, false);
-// }
 
 /**
  * return error code as int
@@ -339,7 +282,6 @@ HTTPUpdateResult ESP8266HTTPUpdate::handleUpdate(HTTPClient& http, const String&
     case HTTP_CODE_OK:  ///< OK (Start Update)
         Serial.println("http code ok");
         if(len > 0) {
-            Serial.println("len>0");
             bool startUpdate = true;
             if(spiffs) {
                 Serial.println("spiffs");
