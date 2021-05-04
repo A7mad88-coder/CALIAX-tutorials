@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "98b749a3-3c14-44d5-8c45-19a1dd4bc8d4",
-		"name": "Asvin API's Copy",
+		"_postman_id": "ece686ce-d30b-4ddc-b7b7-f65224f72216",
+		"name": "Asvin API's",
 		"description": "Collection of asvinio API's",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -128,8 +128,8 @@
 							"const customerKey = pm.collectionVariables.get('customer_key');",
 							"const deviceKey = pm.collectionVariables.get('device_key');",
 							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + customerKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, deviceKey).toString(CryptoJS.digest);",
+							"const mix = Math.floor(dateNow) + deviceKey;",
+							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
 							"pm.collectionVariables.set('device_signature', hash);",
 							"",
 							"pm.sendRequest({",
@@ -222,8 +222,8 @@
 							"const customerKey = pm.collectionVariables.get('customer_key');",
 							"const deviceKey = pm.collectionVariables.get('device_key');",
 							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + customerKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, deviceKey).toString(CryptoJS.digest);",
+							"const mix = Math.floor(dateNow) + deviceKey;",
+							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
 							"pm.collectionVariables.set('device_signature', hash);"
 						]
 					}
@@ -322,8 +322,8 @@
 							"const customerKey = pm.collectionVariables.get('customer_key');",
 							"const deviceKey = pm.collectionVariables.get('device_key');",
 							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + customerKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, deviceKey).toString(CryptoJS.digest);",
+							"const mix = Math.floor(dateNow) + deviceKey;",
+							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
 							"pm.collectionVariables.set('device_signature', hash);",
 							"",
 							"pm.sendRequest({",
@@ -408,8 +408,8 @@
 							"const customerKey = pm.collectionVariables.get('customer_key');",
 							"const deviceKey = pm.collectionVariables.get('device_key');",
 							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + customerKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, deviceKey).toString(CryptoJS.digest);",
+							"const mix = Math.floor(dateNow) + deviceKey;",
+							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
 							"pm.collectionVariables.set('device_signature', hash);",
 							"",
 							"pm.sendRequest({",
