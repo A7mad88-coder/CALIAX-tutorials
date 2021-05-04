@@ -16,19 +16,19 @@ class asvinPlatform():
         self.rolloutid = 0
         self.authToken = 0 
     
-    def hmacAuth(self):
+    def auth(self):
         # get HMAC auth token
-        customer_key = config.customer_key
-        device_key = config.device_key.encode('utf-8')
+        customer_key = config.customer_key.encode('utf-8')
+        device_key = config.device_key
         # timestamp = math.floor(time.time())
         timestamp = time.time()
-        payload = (str(timestamp) + customer_key).encode('utf-8')
-        hashkey = hmac.new(device_key, payload, digestmod=uhashlib.sha256)
+        payload = (str(timestamp) + device_key).encode('utf-8')
+        hashkey = hmac.new(customer_key, payload, digestmod=uhashlib.sha256)
         device_signature = ubinascii.hexlify(hashkey.digest()).decode('utf-8')
         try:
             print("  Getting OAUTH Token  ")
             myobj = {}
-            myobj["customer_key"] = config.customer_key 
+            myobj["device_key"] = config.device_key 
             myobj["device_signature"] = device_signature
             myobj["timestamp"] = timestamp
             # print(myobj)
