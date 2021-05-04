@@ -17,14 +17,14 @@ Asvin::~Asvin(void){
 }
 
 
-String Asvin::authLogin(String customer_key, String device_signature, long unsigned int timestamp, int& httpCode){
+String Asvin::authLogin(String device_key, String device_signature, long unsigned int timestamp, int& httpCode){
     std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
     client->setInsecure();
     HTTPClient http;
     http.begin(*client, authserver_login);
     http.addHeader(F("Content-Type"), "application/json");
     DynamicJsonDocument doc(500);
-    doc["customer_key"] = customer_key;
+    doc["device_key"] = device_key;
     doc["device_signature"] = device_signature;
     doc["timestamp"] = timestamp;
     String payload;

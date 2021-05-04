@@ -30,7 +30,7 @@ class Asvin
         ~Asvin(void);
         String RegisterDevice(const String mac, String currentFwVersion, String token, int& httpCode);
         String CheckRollout(const String mac, const String currentFwVersion, String token, int& httpCode);
-        String authLogin(String customer_key, String device_signature, long unsigned int timestamp, int& httpCode);
+        String authLogin(String device_key, String device_signature, long unsigned int timestamp, int& httpCode);
         String GetBlockchainCID(const String firmwareID, String token, int& httpCode);
         String CheckRolloutSuccess(const String mac, const String currentFwVersion, String token, const String rollout_id, int& httpCode);
         t_httpUpdate_return DownloadFirmware(String token, const String cid);
@@ -43,7 +43,6 @@ class Asvin
         const String authserver_login = "";
         const String bc_GetFirmware = "";
         const String ipfs_Download = "";
-
       
 };                                 
 #endif
