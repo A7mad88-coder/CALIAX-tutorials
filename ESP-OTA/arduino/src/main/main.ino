@@ -29,8 +29,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 
 
 // Get credentials from credentials.h
-String customer_key = "customer_key";
-String device_key = "device_key";
+String customer_key = "";
+String device_key = "";
 
 String key = "3";
 String firmware_version = "1.0.0";
@@ -75,10 +75,10 @@ void loop(){
       char payloadBuf[42];
       ltoa(timestr, payloadBuf, 10);
       
-      strcat(payloadBuf, customer_key.c_str());
+      strcat(payloadBuf, device_key.c_str());
       
-      uint8_t derivedKey[device_key.length()];
-      std::copy(device_key.begin(), device_key.end(), derivedKey);
+      uint8_t derivedKey[customer_key.length()];
+      std::copy(customer_key.begin(), customer_key.end(), derivedKey);
       
       String device_signature = SHA256::hmac(payloadBuf, derivedKey, sizeof derivedKey, SHA256::NATURAL_LENGTH);
       device_signature.toLowerCase();
@@ -93,7 +93,7 @@ void loop(){
       // ......Get OAuth Token.................. 
       Serial.println("Get OAuth Token ");
       
-      String response = asvin.authLogin(customer_key, device_signature, timestr, httpCode);
+      String response = asvin.authLogin(device_key, device_signature, timestr, httpCode);
       Serial.println(" Parsing Auth Code ");
       DynamicJsonDocument doc(1000);
       DeserializationError error = deserializeJson(doc, response);
