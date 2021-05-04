@@ -28,7 +28,7 @@ def blinkLED(color):
 while True:
     blinkLED(config.LED_blink_WIFI)
     connectwifi.reconnect()
-    if platform.hmacAuth():
+    if platform.auth():
         # platform.checkRolloutSuccess()
         platform.registerDevice()
         if platform.checkRollout():
