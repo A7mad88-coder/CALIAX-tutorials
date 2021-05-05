@@ -33,7 +33,7 @@ class asvinPlatform():
             myobj["timestamp"] = timestamp
             # print(myobj)
             headers = {"Content-Type": "application/json"}
-            x = post(config.hmac_auth, json=myobj, headers=headers)
+            x = post(config.auth, json=myobj, headers=headers)
             # print(x.text)
             response = x.json()
             try:
