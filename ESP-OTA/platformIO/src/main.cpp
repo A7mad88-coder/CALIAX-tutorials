@@ -21,6 +21,7 @@
 #include <NTPClient.h>
 #include <Crypto.h>
 #include <TypeConversion.h>
+#include "credentials.h"
 
 // UTC offset
 const long utcOffsetInSeconds = 0;
@@ -29,8 +30,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
 
 
 // Get credentials from credentials.h
-String customer_key = "";
-String device_key = "";
+String customer_key = CUSTOMER_KEY;
+String device_key = DEVICE_KEY;
 
 String key = "3";
 String firmware_version = "1.0.0";
@@ -64,6 +65,7 @@ void loop(){
     
   */
 
+ 
   if (WiFi.status() == WL_CONNECTED){ //Check WiFi connection status
       Serial.println(" Wifi Connected !");
 
