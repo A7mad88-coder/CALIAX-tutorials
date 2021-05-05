@@ -23,6 +23,7 @@
  #define DEBUG_ASVIN_UPDATE(...)
 #endif
 
+// Use #define checkCert to verify server fingerprint
 #define nocheckCert
 
 class Asvin
@@ -39,12 +40,12 @@ class Asvin
         
 
     private:
-        const String registerURL = "";
-        const String checkRollout = "";
-        const String checkRolloutSuccess = "";
-        const String authserver_login = "";
-        const String bc_GetFirmware = "";
-        const String ipfs_Download = "";
+        const String registerURL = "https://app.vc.asvin.io/api/device/register";
+        const String checkRollout = "https://app.vc.asvin.io/api/device/next/rollout";
+        const String checkRolloutSuccess = "https://app.vc.asvin.io/api/device/success/rollout";
+        const String authserver_login = "https://app.auth.asvin.io/auth/login";
+        const String bc_GetFirmware = "https://app.besu.asvin.io/firmware/get";
+        const String ipfs_Download = "https://app.ipfs.asvin.io/firmware/download";
         
     #ifdef checkCert 
         const char *fingerprint_register = "04 8F 26 8C F3 11 A6 5D 96 5B 4E 19 CD 4F F0 60 81 F2 EE D4";
