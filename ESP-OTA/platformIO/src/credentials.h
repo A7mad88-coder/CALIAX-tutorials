@@ -1,4 +1,4 @@
 // Credentials from asvin platform.
 
-#define CUSTOMER_KEY  "Asvin Platform customer Key"
-#define DEVICE_KEY  "Asvin Platform device Key"
+#define CUSTOMER_KEY  "0"
+#define DEVICE_KEY  "0"
