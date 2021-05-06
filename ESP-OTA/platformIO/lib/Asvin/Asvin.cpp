@@ -20,7 +20,7 @@ Asvin::~Asvin(void){
 
 String Asvin::authLogin(String device_key, String device_signature, long unsigned int timestamp, int& httpCode){
     std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
-    client->setFingerprint(fingerprint_register);
+    client->setFingerprint(fingerprint_vc);
     HTTPClient http;
     http.begin(*client, authserver_login);
     http.addHeader(F("Content-Type"), "application/json");
@@ -44,7 +44,7 @@ String Asvin::authLogin(String device_key, String device_signature, long unsigne
 
 String Asvin::RegisterDevice(const String mac, String currentFwVersion, String token, int& httpCode){
     std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
-    client->setFingerprint(fingerprint_register);
+    client->setFingerprint(fingerprint_vc);
     HTTPClient http;
     http.begin(*client, registerURL);
     http.addHeader(F("Content-Type"), "application/json");
