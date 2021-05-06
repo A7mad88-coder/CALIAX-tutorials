@@ -48,7 +48,7 @@ class Asvin
         const String ipfs_Download = "https://app.ipfs.asvin.io/firmware/download";
         
     #ifdef checkCert 
-        const char *fingerprint_register = "04 8F 26 8C F3 11 A6 5D 96 5B 4E 19 CD 4F F0 60 81 F2 EE D4";
+        const char *fingerprint_vc = "04 8F 26 8C F3 11 A6 5D 96 5B 4E 19 CD 4F F0 60 81 F2 EE D4";
         const char *fingerprint_bc = "7D 1D 86 64 81 3E BE EC E7 A2 9C 41 F8 BC 26 CA 90 86 E4 02"; 
         const char *fingerprint_ipfs = "2A 35 41 0E 97 9F 80 2C 20 2D 93 D6 17 2F 89 7F 10 E7 45 6E";
         const char *fingerprint_auth = "84 03 01 90 2A 92 50 7A 2D BA 73 76 64 88 1C BF 86 A5 E2 6E";
