@@ -17,6 +17,7 @@
 #include <mbedtls/md.h> //ESP32 crypto
 #include <WiFi.h>
 #include <credentials.h>
+#include "WiFiManager.h"
 
 // NTP variables
 const char* ntpServer = "europe.pool.ntp.org";
@@ -31,13 +32,12 @@ void setup()
 {
   Serial.begin(115200); //Serial connection
   delay(500);
-  /*
+  
   WiFiManager wifiManager;
   // Uncomment below code to reset onboard wifi credentials
-  // wifiManager.resetSettings();
+  //wifiManager.resetSettings();
   wifiManager.autoConnect("AutoConnectAP");
-  timeClient.begin();
-  */
+  /*
   WiFi.begin(ssid, password);
   Serial.printf("Connecting to the WiFi(%s)\n", ssid);
   while (WiFi.status() != WL_CONNECTED) 
@@ -45,6 +45,7 @@ void setup()
    delay(2000);
    Serial.println("..");
   }
+  */
   Serial.println("Connected to the WiFi network");
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer); //init and get the time
 
@@ -75,7 +76,7 @@ void loop(){
       time_t now;
       time(&now);
       unsigned long timestr = now;
-      //Serial.println(timestr);
+      Serial.println(timestr);
 
       //HMAC mbedtls
       char payload[10+strlen(customer_key.c_str())] = "";
@@ -99,8 +100,8 @@ void loop(){
           //Serial.print(str);
           device_signature += str;
       }
-      //Serial.print("Hash: ");
-      //Serial.println(device_signature);
+      Serial.print("Hash: ");
+      Serial.println(device_signature);
   
       delay(2000);
       HTTPClient http;
