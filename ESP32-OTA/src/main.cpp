@@ -65,7 +65,7 @@ void loop(){
   
   if (WiFi.status() == WL_CONNECTED){ //Check WiFi connection status
       Serial.println("Wifi Connected !");
-      delay(2000);
+      delay(500);
       Serial.println("Getting Unix timestamp from NTP");
       configTime(gmtOffset_sec, daylightOffset_sec, ntpServer); //init and get the time
       struct tm timeinfo;
@@ -79,7 +79,7 @@ void loop(){
       Serial.println(timestr);
 
       //HMAC mbedtls
-      char payload[10+strlen(customer_key.c_str())] = "";
+      char payload[10+strlen(device_key.c_str())] = "";
       byte hmacResult[32];
       ltoa(timestr, payload, 10);
       strcat(payload, device_key.c_str());    
