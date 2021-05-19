@@ -245,9 +245,8 @@ HTTPUpdateResult ESP8266HTTPUpdate::handleUpdate(HTTPClient& http, const String&
     http.collectHeaders(headerkeys, headerkeyssize);
 	Serial.print("Payload -->  ");
 	Serial.println(payload);
-
+    // yield();
     int code = http.POST(payload);
-	
 	DEBUG_HTTP_UPDATE(" HTTP CODE: %d \n ", code);
     delay(100);
     int len = http.getSize();
@@ -258,7 +257,6 @@ HTTPUpdateResult ESP8266HTTPUpdate::handleUpdate(HTTPClient& http, const String&
         http.end();
         return HTTP_UPDATE_FAILED;
     }
-
 
     DEBUG_HTTP_UPDATE("[httpUpdate] Header read fin.\n");
     DEBUG_HTTP_UPDATE("[httpUpdate] Server header:\n");
