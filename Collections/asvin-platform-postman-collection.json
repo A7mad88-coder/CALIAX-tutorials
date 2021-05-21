@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f060d750-6d46-48af-a3a0-29cf8379e650",
+		"_postman_id": "57b9565d-6823-4b3c-837e-9ce0a15a7df1",
 		"name": "asvin platform",
 		"description": "Collection of asvin APIs",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -10,7 +10,7 @@
 			"name": "OAuth",
 			"item": [
 				{
-					"name": "/auth/login",
+					"name": "Login",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -27,10 +27,16 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customer_key\": \"{{customer-key}}\",\r\n    \"device_signature\": \"{{device-signature}}\",\r\n    \"timestamp\": {{timestamp}}\r\n}",
+							"raw": "{\r\n    \"device_key\": \"{{device-key}}\",\r\n    \"device_signature\": \"{{device-signature}}\",\r\n    \"timestamp\": {{timestamp}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -46,21 +52,6 @@
 							"path": [
 								"auth",
 								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://{{asvin-oauth-server}}",
-							"protocol": "https",
-							"host": [
-								"{{asvin-oauth-server}}"
 							]
 						}
 					},
@@ -104,14 +95,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"mac\": \"\",\r\n\t\"firmware_version\": \"1.0\"\r\n}",
+							"raw": "{\r\n\t\"name\": \"my-first-device\",\r\n\t\"mac\": \"23:23:23:23:23:23\",\r\n\t\"firmware_version\": \"1.0\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -212,31 +203,28 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var moment = require('moment');",
-							"const dateNow = moment.utc().unix();",
-							"const customerKey = pm.collectionVariables.get('customer_key');",
-							"const deviceKey = pm.collectionVariables.get('device_key');",
-							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + deviceKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
-							"pm.collectionVariables.set('device_signature', hash);",
-							"",
+							"const dateNow= new Date();",
+							"const customerKey = pm.collectionVariables.get('customer-key');",
+							"const deviceKey =  pm.collectionVariables.get('device-key');",
+							"const timestamp = Math.floor(dateNow.getTime() / 1000);",
+							"pm.collectionVariables.set('timestamp', timestamp);",
+							"const payload = timestamp + deviceKey;",
+							"let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
+							"pm.collectionVariables.set('device-signature', deviceSignature);",
 							"pm.sendRequest({",
-							"    url: pm.collectionVariables.get(\"asvin-oauth-server\"),",
+							"    url: 'https://' + pm.collectionVariables.get(\"asvin-oauth-server\") + '/auth/login',",
 							"    method: 'POST',",
 							"    header: 'Content-Type:application/json',",
 							"    body: {",
 							"        mode: 'raw',",
 							"        raw: JSON.stringify({ ",
-							"            customer_key: pm.collectionVariables.get(\"customer_key\"), ",
-							"            device_signature: pm.collectionVariables.get(\"device_signature\"),",
-							"            timestamp: pm.collectionVariables.get(\"timestamp\")",
+							"            device_key: pm.collectionVariables.get(\"device-key\"),",
+							"\t\t\t\t\t\ttimestamp: pm.collectionVariables.get(\"timestamp\"),",
+							"            device_signature: pm.collectionVariables.get(\"device-signature\")",
 							"            })",
 							"    }",
 							"}, function (err, res) {",
-							"    // console.log(res.code)",
 							"    if(!err && res.code == 200) {",
-							"        // console.log(res.json().token);",
 							"        pm.collectionVariables.set(\"X-Access-Token\", res.json().token);",
 							"    }",
 							"});"
@@ -459,15 +447,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
-			},
-			"response": []
 		}
 	],
 	"event": [
