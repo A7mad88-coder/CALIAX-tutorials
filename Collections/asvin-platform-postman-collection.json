@@ -1,11 +1,100 @@
 {
 	"info": {
-		"_postman_id": "ece686ce-d30b-4ddc-b7b7-f65224f72216",
-		"name": "Asvin API's",
-		"description": "Collection of asvinio API's",
+		"_postman_id": "f060d750-6d46-48af-a3a0-29cf8379e650",
+		"name": "asvin Platform",
+		"description": "Collection of asvin APIs",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "/auth/login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer_key\": \"{{customer-key}}\",\r\n    \"device_signature\": \"{{device-signature}}\",\r\n    \"timestamp\": {{timestamp}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{asvin-oauth-server}}/auth/login",
+							"protocol": "https",
+							"host": [
+								"{{asvin-oauth-server}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{asvin-oauth-server}}",
+							"protocol": "https",
+							"host": [
+								"{{asvin-oauth-server}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const dateNow= new Date();",
+							"const customerKey = pm.collectionVariables.get('customer-key');",
+							"const deviceKey =  pm.collectionVariables.get('device-key');",
+							"const timestamp = Math.floor(dateNow.getTime() / 1000);",
+							"pm.collectionVariables.set('timestamp', timestamp);",
+							"const payload = timestamp + deviceKey;",
+							"let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
+							"pm.collectionVariables.set('device-signature', deviceSignature);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
 		{
 			"name": "Version Controller ",
 			"item": [
@@ -151,80 +240,6 @@
 							"        pm.collectionVariables.set(\"X-Access-Token\", res.json().token);",
 							"    }",
 							"});"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "OAuth",
-			"item": [
-				{
-					"name": "Auth Server",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"customer_key\": \"{{customer_key}}\",\r\n    \"device_signature\": \"{{device_signature}}\",\r\n    \"timestamp\": {{timestamp}}\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://{{asvin-oauth-server}}/auth/login",
-							"protocol": "https",
-							"host": [
-								"{{asvin-oauth-server}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"var moment = require('moment');",
-							"const dateNow = moment.utc().unix();",
-							"const customerKey = pm.collectionVariables.get('customer_key');",
-							"const deviceKey = pm.collectionVariables.get('device_key');",
-							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + deviceKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
-							"pm.collectionVariables.set('device_signature', hash);"
 						]
 					}
 				},
@@ -444,6 +459,15 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -468,15 +492,15 @@
 	],
 	"variable": [
 		{
-			"key": "customer_key",
-			"value": ""
+			"key": "customer-key",
+			"value": "enter-your-customer-key"
 		},
 		{
-			"key": "device_key",
-			"value": ""
+			"key": "device-key",
+			"value": "enter-your-device-key"
 		},
 		{
-			"key": "device_signature",
+			"key": "device-signature",
 			"value": ""
 		},
 		{
@@ -489,19 +513,19 @@
 		},
 		{
 			"key": "asvin-oauth-server",
-			"value": ""
+			"value": "app.auth.asvin.io"
 		},
 		{
 			"key": "asvin-vc-server",
-			"value": ""
+			"value": "app.vc.asvin.io"
 		},
 		{
 			"key": "asvin-bc-server",
-			"value": ""
+			"value": "app.besu.asvin.io"
 		},
 		{
 			"key": "asvin-ipfs-server",
-			"value": ""
+			"value": "app.ipfs.asvin.io"
 		}
 	]
 }
