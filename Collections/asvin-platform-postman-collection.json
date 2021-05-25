@@ -36,7 +36,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"device_key\": \"{{device-key}}\",\r\n    \"device_signature\": \"{{device-signature}}\",\r\n    \"timestamp\": {{timestamp}}\r\n}",
+							"raw": "{\r\n  \"device_key\": \"{{device-key}}\",\r\n  \"device_signature\": \"{{device-signature}}\",\r\n  \"timestamp\": {{timestamp}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -102,7 +102,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"my-first-device\",\r\n\t\"mac\": \"23:23:23:23:23:23\",\r\n\t\"firmware_version\": \"1.0\"\r\n}",
+							"raw": "{\r\n  \"name\": \"\",\r\n  \"mac\": \"\",\r\n  \"firmware_version\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -130,14 +130,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"mac\": \t\"\",\r\n\t\"firmware_version\": \"1.0.0\"\r\n}",
+							"raw": "{\r\n  \"mac\": \"\",\r\n  \"firmware_version\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -166,14 +166,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"mac\": \t\"\",\r\n\t\"firmware_version\": \"\",\r\n\t\"rollout_id\": \"\"\r\n}",
+							"raw": "{\r\n  \"mac\": \"\",\r\n  \"firmware_version\": \"\",\r\n  \"rollout_id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,14 +251,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"id\": \"\"\r\n}",
+							"raw": "{\r\n  \"id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -285,14 +285,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"id\" : \"\"\r\n}",
+							"raw": "{\r\n  \"id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -320,31 +320,28 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var moment = require('moment');",
-							"const dateNow = moment.utc().unix();",
-							"const customerKey = pm.collectionVariables.get('customer_key');",
-							"const deviceKey = pm.collectionVariables.get('device_key');",
-							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + deviceKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
-							"pm.collectionVariables.set('device_signature', hash);",
-							"",
+							"const dateNow= new Date();",
+							"const customerKey = pm.collectionVariables.get('customer-key');",
+							"const deviceKey =  pm.collectionVariables.get('device-key');",
+							"const timestamp = Math.floor(dateNow.getTime() / 1000);",
+							"pm.collectionVariables.set('timestamp', timestamp);",
+							"const payload = timestamp + deviceKey;",
+							"let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
+							"pm.collectionVariables.set('device-signature', deviceSignature);",
 							"pm.sendRequest({",
-							"    url: pm.collectionVariables.get(\"asvin-oauth-server\"),",
+							"    url: 'https://' + pm.collectionVariables.get(\"asvin-oauth-server\") + '/auth/login',",
 							"    method: 'POST',",
 							"    header: 'Content-Type:application/json',",
 							"    body: {",
 							"        mode: 'raw',",
 							"        raw: JSON.stringify({ ",
-							"            customer_key: pm.collectionVariables.get(\"customer_key\"), ",
-							"            device_signature: pm.collectionVariables.get(\"device_signature\"),",
-							"            timestamp: pm.collectionVariables.get(\"timestamp\")",
+							"            device_key: pm.collectionVariables.get(\"device-key\"),",
+							"\t\t\t\t\t\ttimestamp: pm.collectionVariables.get(\"timestamp\"),",
+							"            device_signature: pm.collectionVariables.get(\"device-signature\")",
 							"            })",
 							"    }",
 							"}, function (err, res) {",
-							"    // console.log(res.code)",
 							"    if(!err && res.code == 200) {",
-							"        // console.log(res.json().token);",
 							"        pm.collectionVariables.set(\"X-Access-Token\", res.json().token);",
 							"    }",
 							"});"
@@ -371,14 +368,14 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "x-access-token",
+								"key": "X-Access-Token",
 								"value": "{{X-Access-Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cid\": \"\"\r\n}",
+							"raw": "{\r\n  \"cid\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -406,31 +403,164 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var moment = require('moment');",
-							"const dateNow = moment.utc().unix();",
-							"const customerKey = pm.collectionVariables.get('customer_key');",
-							"const deviceKey = pm.collectionVariables.get('device_key');",
-							"pm.collectionVariables.set(\"timestamp\", dateNow);",
-							"const mix = Math.floor(dateNow) + deviceKey;",
-							"let hash = CryptoJS.HmacSHA256(mix, customerKey).toString(CryptoJS.digest);",
-							"pm.collectionVariables.set('device_signature', hash);",
-							"",
+							"const dateNow= new Date();",
+							"const customerKey = pm.collectionVariables.get('customer-key');",
+							"const deviceKey =  pm.collectionVariables.get('device-key');",
+							"const timestamp = Math.floor(dateNow.getTime() / 1000);",
+							"pm.collectionVariables.set('timestamp', timestamp);",
+							"const payload = timestamp + deviceKey;",
+							"let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
+							"pm.collectionVariables.set('device-signature', deviceSignature);",
 							"pm.sendRequest({",
-							"    url: pm.collectionVariables.get(\"asvin-oauth-server\"),",
+							"    url: 'https://' + pm.collectionVariables.get(\"asvin-oauth-server\") + '/auth/login',",
 							"    method: 'POST',",
 							"    header: 'Content-Type:application/json',",
 							"    body: {",
 							"        mode: 'raw',",
 							"        raw: JSON.stringify({ ",
-							"            customer_key: pm.collectionVariables.get(\"customer_key\"), ",
-							"            device_signature: pm.collectionVariables.get(\"device_signature\"),",
-							"            timestamp: pm.collectionVariables.get(\"timestamp\")",
+							"            device_key: pm.collectionVariables.get(\"device-key\"),",
+							"\t\t\t\t\t\ttimestamp: pm.collectionVariables.get(\"timestamp\"),",
+							"            device_signature: pm.collectionVariables.get(\"device-signature\")",
 							"            })",
 							"    }",
 							"}, function (err, res) {",
-							"    // console.log(res.code)",
 							"    if(!err && res.code == 200) {",
-							"        // console.log(res.json().token);",
+							"        pm.collectionVariables.set(\"X-Access-Token\", res.json().token);",
+							"    }",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "misc",
+			"item": [
+				{
+					"name": "Check, Get and Download Firmware",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pre-request script to get firmware id from VC and CID from BC",
+									"",
+									"// change these varaibles",
+									"const mac = '23:23:23:23:23:23';",
+									"const firmware_version = '1.0';",
+									"",
+									"pm.sendRequest({",
+									"  url: 'https://' + pm.collectionVariables.get(\"asvin-vc-server\") + '/api/device/next/rollout',",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Content-Type': 'application/json',",
+									"    'X-Access-Token': pm.collectionVariables.get('X-Access-Token')",
+									"  },",
+									"  body: {",
+									"    mode: 'raw',",
+									"    raw: JSON.stringify({",
+									"      mac: mac,",
+									"      firmware_version: firmware_version,",
+									"    })",
+									"  }",
+									"}, function (err, res) {",
+									"  if (!err && res.code == 200) {",
+									"    var firmwareId = res.json().firmware_id;",
+									"    pm.sendRequest({",
+									"      url: 'https://' + pm.collectionVariables.get(\"asvin-bc-server\") + '/firmware/get',",
+									"      method: 'POST',",
+									"      header: {",
+									"        'Content-Type': 'application/json',",
+									"        'X-Access-Token': pm.collectionVariables.get('X-Access-Token')",
+									"      },",
+									"      body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"          id: firmwareId,",
+									"        })",
+									"      }",
+									"    }, function (err, res) {",
+									"      if (!err && res.code == 200) {",
+									"        pm.collectionVariables.set(\"cid\", res.json().cid);",
+									"      }",
+									"    });",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Access-Token",
+								"value": "{{X-Access-Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cid\": \"{{cid}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{asvin-ipfs-server}}/firmware/download",
+							"protocol": "https",
+							"host": [
+								"{{asvin-ipfs-server}}"
+							],
+							"path": [
+								"firmware",
+								"download"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const dateNow= new Date();",
+							"const customerKey = pm.collectionVariables.get('customer-key');",
+							"const deviceKey =  pm.collectionVariables.get('device-key');",
+							"const timestamp = Math.floor(dateNow.getTime() / 1000);",
+							"pm.collectionVariables.set('timestamp', timestamp);",
+							"const payload = timestamp + deviceKey;",
+							"let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
+							"pm.collectionVariables.set('device-signature', deviceSignature);",
+							"pm.sendRequest({",
+							"    url: 'https://' + pm.collectionVariables.get(\"asvin-oauth-server\") + '/auth/login',",
+							"    method: 'POST',",
+							"    header: 'Content-Type:application/json',",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({ ",
+							"            device_key: pm.collectionVariables.get(\"device-key\"),",
+							"\t\t\t\t\t\ttimestamp: pm.collectionVariables.get(\"timestamp\"),",
+							"            device_signature: pm.collectionVariables.get(\"device-signature\")",
+							"            })",
+							"    }",
+							"}, function (err, res) {",
+							"    if(!err && res.code == 200) {",
 							"        pm.collectionVariables.set(\"X-Access-Token\", res.json().token);",
 							"    }",
 							"});"
@@ -505,6 +635,10 @@
 		{
 			"key": "asvin-ipfs-server",
 			"value": "app.ipfs.asvin.io"
+		},
+		{
+			"key": "cid",
+			"value": ""
 		}
 	]
 }
