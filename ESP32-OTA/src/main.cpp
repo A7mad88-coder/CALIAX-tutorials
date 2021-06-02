@@ -1,11 +1,10 @@
 /*
  * ESP32 OTA
  *
- * The sketch was developed for a prototype consist of Nodemcu ESP32 board
- * and 1602A LCD board. The board connects to asvin platform and perform OTA 
- * firmware updates. 
+ * The sketch was developed for a prototype consist of ESP32 board.
+ * The board connects to asvin platform and perform OTA firmware updates. 
  * 
- * Written by Rohit Bohara, Apache-2.0 License
+ * Written by Rahul Karade, Apache-2.0 License
  */
 
 #include <Arduino.h>
@@ -34,7 +33,7 @@ void setup()
   delay(500);
   
   WiFiManager wifiManager;
-  // Uncomment below code to reset onboard wifi credentials
+  //Uncomment below code to reset onboard wifi credentials
   //wifiManager.resetSettings();
   wifiManager.autoConnect("AutoConnectAP");
   /*
