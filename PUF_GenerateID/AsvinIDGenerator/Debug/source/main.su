@@ -1,0 +1,8 @@
+fsl_power.h:355:20:POWER_SetBodVbatLevel	16	static
+main.c:74:10:USART0_GetFreq	8	static
+main.c:78:10:USART1_GetFreq	8	static
+main.c:84:6:USART_Callback	16	static
+main.c:87:6:PrintMem	32	static
+main.c:101:6:Flash_ReadAC	16	static
+main.c:107:11:StartPuf	16	static
+main.c:138:5:main	2584	static

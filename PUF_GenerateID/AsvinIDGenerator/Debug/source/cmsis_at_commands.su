@@ -1,0 +1,12 @@
+fsl_power.h:355:20:POWER_SetBodVbatLevel	16	static
+cmsis_at_commands.c:40:10:USART0_GetFreq	8	static
+cmsis_at_commands.c:44:10:USART1_GetFreq	8	static
+cmsis_at_commands.c:48:10:USART2_GetFreq	8	static
+cmsis_at_commands.c:52:10:USART3_GetFreq	8	static
+cmsis_at_commands.c:56:10:USART4_GetFreq	8	static
+cmsis_at_commands.c:60:10:USART5_GetFreq	8	static
+cmsis_at_commands.c:64:10:USART6_GetFreq	8	static
+cmsis_at_commands.c:68:10:USART7_GetFreq	8	static
+cmsis_at_commands.c:72:10:USART8_GetFreq	8	static
+cmsis_at_commands.c:76:6:USART_SignalEvent_t	16	static
+cmsis_at_commands.c:94:5:main	16	static

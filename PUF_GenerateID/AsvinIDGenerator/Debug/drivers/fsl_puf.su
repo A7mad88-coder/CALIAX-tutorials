@@ -1,0 +1,17 @@
+fsl_clock.h:722:20:CLOCK_EnableClock	24	static
+fsl_clock.h:732:20:CLOCK_DisableClock	24	static
+fsl_puf.c:14:13:puf_wait_usec	16	static
+fsl_puf.c:29:17:puf_waitForInit	24	static
+fsl_puf.c:52:13:puf_powerOn	16	static
+fsl_puf.c:68:17:puf_powerCycle	24	static
+fsl_puf.c:128:10:PUF_Init	32	static
+fsl_puf.c:162:6:PUF_Deinit	24	static
+fsl_puf.c:199:10:PUF_Enroll	32	static
+fsl_puf.c:268:10:PUF_Start	32	static
+fsl_puf.c:343:10:PUF_SetIntrinsicKey	32	static
+fsl_puf.c:433:10:PUF_SetUserKey	56	static
+fsl_puf.c:538:17:puf_getHwKey	32	static
+fsl_puf.c:595:10:PUF_GetHwKey	40	static
+fsl_puf.c:674:6:PUF_IsGetKeyAllowed	16	static
+fsl_puf.c:700:10:PUF_GetKey	40	static
+fsl_puf.c:796:10:PUF_Zeroize	24	static

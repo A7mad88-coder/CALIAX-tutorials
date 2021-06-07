@@ -1,0 +1,16 @@
+fsl_iap.c:165:10:FLASH_Init	16	static
+fsl_iap.c:174:10:FLASH_Erase	32	static
+fsl_iap.c:189:10:FLASH_Program	32	static
+fsl_iap.c:204:10:FLASH_VerifyErase	24	static
+fsl_iap.c:211:10:FLASH_VerifyProgram	40	static
+fsl_iap.c:233:10:FLASH_GetProperty	24	static
+fsl_iap.c:243:10:FFR_Init	16	static
+fsl_iap.c:258:10:FFR_Deinit	16	static
+fsl_iap.c:273:10:FFR_CustFactoryPageWrite	24	static
+fsl_iap.c:288:10:FFR_GetUUID	16	static
+fsl_iap.c:303:10:FFR_GetCustomerData	32	static
+fsl_iap.c:318:10:FFR_KeystoreWrite	16	static
+fsl_iap.c:333:10:FFR_KeystoreGetAC	16	static
+fsl_iap.c:348:10:FFR_KeystoreGetKC	24	static
+fsl_iap.c:363:10:FFR_InfieldPageWrite	24	static
+fsl_iap.c:378:10:FFR_GetCustomerInfieldData	32	static
