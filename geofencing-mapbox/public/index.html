@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <title>ESA BIC Geofencing experiment</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.1/mapbox-gl-draw.css">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.1/mapbox-gl-draw.js"></script>
+    
+</head>
+
+<body>
+
+<div id="map"></div>
+<div class="calculation-box">
+    <p>Device  Status: </p>
+    <div id="calculated-area"></div>
+</div>
+<pre id="coordinates" class="coordinates"></pre>
+
+<script src="./js/geofence-browserify.js"></script>
+
+
+</body>
+</html>
