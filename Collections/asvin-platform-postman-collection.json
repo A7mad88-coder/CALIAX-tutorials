@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "57b9565d-6823-4b3c-837e-9ce0a15a7df1",
-    "name": "asvin-platform",
-    "description": "Collection of asvin APIs",
+    "name": "caliax-platform",
+    "description": "Collection of caliax APIs",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -42,8 +42,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-oauth-server}}/auth/login",
-              "host": ["{{asvin-oauth-server}}"],
+              "raw": "{{caliax-oauth-server}}/auth/login",
+              "host": ["{{caliax-oauth-server}}"],
               "path": ["auth", "login"]
             }
           },
@@ -100,8 +100,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-vc-server}}/api/device/register",
-              "host": ["{{asvin-vc-server}}"],
+              "raw": "{{caliax-vc-server}}/api/device/register",
+              "host": ["{{caliax-vc-server}}"],
               "path": ["api", "device", "register"]
             }
           },
@@ -128,9 +128,9 @@
               }
             },
             "url": {
-              "raw": "https://{{asvin-vc-server}}/api/device/next/rollout",
+              "raw": "https://{{caliax-vc-server}}/api/device/next/rollout",
               "protocol": "https",
-              "host": ["{{asvin-vc-server}}"],
+              "host": ["{{caliax-vc-server}}"],
               "path": ["api", "device", "next", "rollout"]
             }
           },
@@ -157,9 +157,9 @@
               }
             },
             "url": {
-              "raw": "https://{{asvin-vc-server}}/api/device/success/rollout",
+              "raw": "https://{{caliax-vc-server}}/api/device/success/rollout",
               "protocol": "https",
-              "host": ["{{asvin-vc-server}}"],
+              "host": ["{{caliax-vc-server}}"],
               "path": ["api", "device", "success", "rollout"]
             }
           },
@@ -210,8 +210,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-bc-server}}/device/:id",
-              "host": ["{{asvin-bc-server}}"],
+              "raw": "{{caliax-bc-server}}/device/:id",
+              "host": ["{{caliax-bc-server}}"],
               "path": ["device", ":id"],
               "variable": [
                 {
@@ -247,8 +247,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-bc-server}}/firmware/:id",
-              "host": ["{{asvin-bc-server}}"],
+              "raw": "{{caliax-bc-server}}/firmware/:id",
+              "host": ["{{caliax-bc-server}}"],
               "path": ["firmware", ":id"],
               "variable": [
                 {
@@ -305,8 +305,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-ipfs-server}}/firmware/:cid",
-              "host": ["{{asvin-ipfs-server}}"],
+              "raw": "{{caliax-ipfs-server}}/firmware/:cid",
+              "host": ["{{caliax-ipfs-server}}"],
               "path": ["firmware", ":cid"],
               "variable": [
                 {
@@ -353,7 +353,7 @@
                   "const firmware_version = '1.0';",
                   "",
                   "pm.sendRequest({",
-                  "  url: pm.collectionVariables.get(\"asvin-vc-server\") + '/api/device/next/rollout',",
+                  "  url: pm.collectionVariables.get(\"caliax-vc-server\") + '/api/device/next/rollout',",
                   "  method: 'POST',",
                   "  header: {",
                   "    'Content-Type': 'application/json',",
@@ -370,7 +370,7 @@
                   "  if (!err && res.code == 200) {",
                   "    var firmwareId = res.json().firmware_id;",
                   "    pm.sendRequest({",
-                  "      url: pm.collectionVariables.get(\"asvin-bc-server\") + '/firmware/'+firmwareId,",
+                  "      url: pm.collectionVariables.get(\"caliax-bc-server\") + '/firmware/'+firmwareId,",
                   "      method: 'GET',",
                   "      header: {",
                   "        'X-Access-Token': pm.collectionVariables.get('X-Access-Token')",
@@ -409,8 +409,8 @@
               }
             },
             "url": {
-              "raw": "{{asvin-ipfs-server}}/firmware/:cid",
-              "host": ["{{asvin-ipfs-server}}"],
+              "raw": "{{caliax-ipfs-server}}/firmware/:cid",
+              "host": ["{{caliax-ipfs-server}}"],
               "path": ["firmware", ":cid"],
               "variable": [
                 {
@@ -456,7 +456,7 @@
           "let deviceSignature = CryptoJS.HmacSHA256(payload, customerKey).toString(CryptoJS.digest);",
           "pm.collectionVariables.set('device-signature', deviceSignature);",
           "pm.sendRequest({",
-          "    url: pm.collectionVariables.get(\"asvin-oauth-server\") + '/auth/login',",
+          "    url: pm.collectionVariables.get(\"caliax-oauth-server\") + '/auth/login',",
           "    method: 'POST',",
           "    header: 'Content-Type:application/json',",
           "    body: {",
@@ -505,20 +505,20 @@
       "value": ""
     },
     {
-      "key": "asvin-oauth-server",
-      "value": "https://app.auth.asvin.io"
+      "key": "caliax-oauth-server",
+      "value": "https://app.auth.caliax.io"
     },
     {
-      "key": "asvin-vc-server",
-      "value": "https://app.vc.asvin.io"
+      "key": "caliax-vc-server",
+      "value": "https://app.vc.caliax.io"
     },
     {
-      "key": "asvin-bc-server",
-      "value": "https://app.besu.asvin.io"
+      "key": "caliax-bc-server",
+      "value": "https://app.besu.caliax.io"
     },
     {
-      "key": "asvin-ipfs-server",
-      "value": "https://app.ipfs.asvin.io"
+      "key": "caliax-ipfs-server",
+      "value": "https://app.ipfs.caliax.io"
     },
     {
       "key": "cid",
